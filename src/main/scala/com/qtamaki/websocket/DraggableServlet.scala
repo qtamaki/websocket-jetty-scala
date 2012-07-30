@@ -39,7 +39,6 @@ logger.info("<< onMessage")
 logger.info(">> onOpen")
       this.connection = connection
       clients += this
-//      onMessage("WebSocket is success!!!");
      }
 
     override def onClose(closeCode:Int, message:String) = {
