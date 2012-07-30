@@ -5,7 +5,7 @@ This project is using sbt, jetty, jetty-websocket, jquery and jquery ui library.
 
 To run this project, in sbt run:
 
-    cd websocket-server
+    cd websocket-jetty-scala
     sbt
     container:start
 
