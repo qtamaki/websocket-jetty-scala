@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>The Synchronized Draggable BOX</title>
+	<link type="text/css" href="css/jquery-ui-1.8.22.custom.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.22.custom.min.js"></script>
+	
+	<style>
+	#draggable { width: 150px; height: 150px; padding: 0.5em; }
+	</style>
+	
+	<script>
+		var ws = new WebSocket("ws://localhost:8080/");
+
+		ws.onopen = function(ev) {
+			$('#status').append(" Open");
+		}
+		ws.onmessage = function(ev) {
+			$('#status').append(" onMessage");
+			var x = document.getElementById("draggable");
+			var arr = ev.data.split(",");
+			x.style.top = arr[0];
+			x.style.left = arr[1];
+		};
+		ws.onclose = function(evt) {
+			$('#status').append(" Closed");
+		};
+		$(window).unload(function(){
+			ws.close();
+		});
+		$(function() {
+			$( "#draggable" ).draggable({
+				stop: function(e, ui){
+					var x = document.getElementById("draggable");
+					var posi = x.style.top + "," + x.style.left;
+					ws.send(posi);
+					$('#posi').text(posi);
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>The Synchronized Draggable BOX</h1>
+	<p>Status: <span id="status"></span></p>
+	<div class="box">
+		<div id="draggable" class="ui-widget-content">
+			<p>Draggable BOX<br/>Posi: <span id=posi></span></p>
+		</div>
+	</div>
+</body>
+</html>
