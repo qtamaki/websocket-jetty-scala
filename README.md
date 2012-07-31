@@ -9,7 +9,7 @@ To run this project, in sbt run:
     sbt
     container:start
 
-Then you can see "The Synchronized Draggable BOX" at http://localhost:8080/.
+Then you can see "The Synchronized Draggable BOX" at http://localhost:8080/ .
 
 And you can see synchronized moving dragging box any browsers and any machines.
 
