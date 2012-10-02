@@ -1,6 +1,7 @@
 package com.qtamaki.websocket
 
-import scala.collection.mutable.Set
+import scala.collection.mutable.HashSet
+import scala.collection.mutable.SynchronizedSet
 import javax.servlet.http._
 import org.eclipse.jetty.websocket.WebSocket
 import org.eclipse.jetty.websocket.WebSocketServlet
@@ -11,7 +12,7 @@ import org.slf4j.LoggerFactory
 
 class DraggableServlet extends WebSocketServlet {
   val logger = LoggerFactory.getLogger(classOf[DraggableServlet]);
-  val clients = Set.empty[DraggableWebSocket]
+  val clients = new HashSet[DraggableWebSocket] with SynchronizedSet[DraggableWebSocket]
 
   override def doGet(req: HttpServletRequest, resp: HttpServletResponse):Unit = {
 logger.info(">> doGet")
@@ -38,12 +39,12 @@ logger.info("<< onMessage")
     override def onOpen(connection:Connection) = {
 logger.info(">> onOpen")
       this.connection = connection
-      clients += this
+      clients add this
      }
 
     override def onClose(closeCode:Int, message:String) = {
 logger.info(">> onClose")
-      clients -= this
+      clients remove this
      }
   }
 }
